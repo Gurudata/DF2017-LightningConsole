@@ -1,0 +1,74 @@
+<aura:component access="public" implements="flexipage:availableForAllPageTypes">
+    <!-- public attributes -->
+    <aura:attribute description="Array of one or more DataTableColumnCmp components." name="columns" required="true" type="Aura.Component[]">
+    </aura:attribute>
+    <aura:attribute description="The data of the rows to display. Should have JSON property for each column name value." name="rows" type="Object[]">
+    </aura:attribute>
+    <!-- pagination attributes -->
+    <aura:attribute default="1" description="For pagination, which page of records to display." name="pageNumber" type="Integer">
+    </aura:attribute>
+    <aura:attribute default="5" description="For pagination, how many records per page to display." name="pageSize" type="Integer">
+    </aura:attribute>
+    <aura:attribute description="For sorting, last known requested sort preference. A value that matches the name attribute of a DataTableColumnCmp." name="sortColumnName" type="String">
+    </aura:attribute>
+    <aura:attribute description="For sorting, last known requested sort preference. Value must be 'asc' or 'desc'." name="sortDirection" type="String">
+    </aura:attribute>
+    <!-- style attributes -->
+    <aura:attribute default="slds-table slds-table--bordered slds-table--fixed-layout slds-scrollable" description="CSS classes to apply to table tag." name="tableClass" type="String">
+    </aura:attribute>
+    <aura:attribute default="slds-text-title--caps" description="CSS classes to apply to table TR tags in THEAD section." name="tableHeaderRowClass" type="String">
+    </aura:attribute>
+    <aura:attribute default="slds-hint-parent" description="CSS classes to apply to table TR tags in TBODY section." name="tableBodyRowClass" type="String">
+    </aura:attribute>
+
+    <!-- private attributes -->
+    <aura:attribute access="private" description="In the renderer.js, the interval id for periodically checking scroll position. Used when unrendering component to cancel interval check." name="scrollCheckIntervalId" type="String">
+    </aura:attribute>
+    <aura:attribute access="public" default="0px" name="topDivheight" type="String">
+    </aura:attribute>
+    <aura:attribute access="public" default="0px" name="bottomDivheight" type="String">
+    </aura:attribute>
+    <aura:attribute access="private" default="0px" description="In the renderer.js, the row height is calculated dynamically" name="rowHeight" type="String">
+    </aura:attribute>
+    <!-- events -->
+    <aura:registerevent name="pageChangeEvent" type="c:VDataTablePageChangeEvent"/>
+    <aura:handler event="c:VLDataTableSortChangeEvent" action="{!c.handleSortChangeEvent}"/>
+    <aura:handler action="{!c.doInit}" name="init" value="{!this}"/>
+
+    <!-- markup -->
+    
+    <table class="{!v.tableClass}" role="grid">
+        <thead>
+            <tr class="{!v.tableHeaderRowClass}">
+                <aura:iteration items="{!v.columns}" var="column">
+                    {!column}
+                </aura:iteration>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <!-- Top filler divs to swap rows which are out of view port.-->
+           <!-- <div style="{!'width:50px;background-color:red; visibility:hidden; height:'+v.topDivheight*v.rowHeight+'px'}" id="topFillerdiv"/> -->
+            <!--<div id="bodyContent">-->
+             <br/> 
+            Current Page Number {!v.pageNumber}
+            <aura:iteration indexvar="rowIdx" items="{!v.rows}" var="row">
+                <tr class="{!v.tableBodyRowClass}">
+                    <aura:iteration indexvar="colIdx" items="{!v.columns}" var="column">
+                        <td data-label="{!column.label}" role="gridcell">
+                            <c:VLDataTableCellCmp colidx="{!colIdx}" column="{!column}" row="{!row}" rowidx="{!rowIdx}">
+                            </c:VLDataTableCellCmp>
+                        </td>
+                    </aura:iteration>
+                </tr>
+            </aura:iteration>
+            <br/>  <br/>  <br/>  <br/> 
+            <!--</div>-->
+            Current Page Number {!v.pageNumber}
+           <!--<div style="{!'width:50px;background-color:red; visibility:hidden; height:'+v.bottomDivheight*v.rowHeight+'px'}" id="bottomFillerdiv"/> -->
+             <!-- Bottom filler divs to swap rows which are out of view port.-->
+        </tbody>
+    
+    </table>     
+    
+</aura:component>

@@ -1,0 +1,118 @@
+<aura:component extends="c:CSC_NavigationApi" controller="CSC_ApexController" implements="flexipage:availableForAllPageTypes,force:appHostable">
+
+    <!--Declare Attributes-->  
+    <aura:attribute name="ListOfContact" type="contact[]"/>           
+    <aura:attribute name="arrowDirection" type="string" default="arrowup" description="Use for change arrow sign direction on header based on click"/>
+    <aura:attribute name="isAsc" type="boolean" default="true" description="boolean flag for pass sorting condition to apex class"/> 
+    <aura:attribute name="selectedTabsoft" type="string" default="firstName" description="Use for show/hide arraow sign on header based on conditions"/>
+    
+    <aura:attribute name="tablabel" type="String"/>
+    <aura:attribute name="tabicon" type="String"/>
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.loadContactList}"/>
+   <lightning:workspaceAPI aura:id="workspace" />
+    
+    
+    
+    <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+        <thead>
+            <tr class="slds-text-title--caps">
+                
+                <th class="slds-is-sortable slds-text-title--caps" scope="col" onclick="{!c.sortAccountName}">
+                    <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset">
+                        <span class="slds-assistive-text">Sort</span>
+                        <span class="slds-truncate" title="Name">Account Name(navigateTosobject event)</span>  
+                        <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'AccountName') }">&nbsp;  &#9660; </aura:if>  
+                        <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'AccountName') }"> &nbsp;  &#9650; </aura:if>                        
+                    </a>
+                </th>
+                <th class="slds-is-sortable slds-text-title--caps" scope="col" onclick="{!c.sortAccountName}">
+                    <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset">
+                        <span class="slds-assistive-text">Sort</span>
+                        <span class="slds-truncate" title="Name">Account Name (navigateTosobject JSAPI)</span>  
+                        <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'AccountName') }">&nbsp;  &#9660; </aura:if>  
+                        <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'AccountName') }"> &nbsp;  &#9650; </aura:if>                        
+                    </a>
+                </th>
+                
+                <th class="slds-is-sortable slds-text-title--caps" scope="col" onclick="{!c.sortFirstName}">
+                    <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset">
+                        <span class="slds-assistive-text">Sort</span>
+                        <span class="slds-truncate" title="Name">Contact Name</span>  
+                        <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'firstName') }">&nbsp;  &#9660; </aura:if>  
+                        <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'firstName') }"> &nbsp;  &#9650; </aura:if>                        
+                    </a>
+                </th>
+                
+                <th class="slds-is-sortable slds-text-title--caps" scope="col" onclick="{!c.sortLastName}">
+                    <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset">
+                        <span class="slds-assistive-text">Sort</span>
+                        <span class="slds-truncate" title="Last Name">Last Name</span>
+                        <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'lastName') }">&nbsp;  &#9660;</aura:if>
+                        <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'lastName') }">&nbsp;  &#9650;</aura:if>     
+                        
+                    </a>
+                </th>
+                
+                <th class="slds-is-sortable slds-text-title--caps" scope="col" onclick="{!c.sortDepartment}">
+                    <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset">
+                        <span class="slds-assistive-text">Sort</span>
+                        <span class="slds-truncate" title="Department">Department</span>
+                        <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'Department') }">&nbsp;  &#9660;</aura:if>
+                        <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'Department') }">&nbsp;  &#9650;</aura:if>     
+                    </a>
+                </th>
+                
+                <th scope="col">
+                    <div class="slds-truncate" title="MobilePhone">Mobile Phone</div>
+                </th>
+            </tr>
+        </thead>
+        <!--table body start,
+      Iterate contact list as a <tr>
+     -->
+        <tbody>
+            <aura:iteration items="{!v.ListOfContact}" var="con" indexVar="indx">  
+                <tr>
+                     <th scope="row">
+                        <div class="slds-truncate" title="{!con.Account.Name}" > <a data-index="{!indx}" href="javascript:void(0);"  onclick="{! c.opensobjectTabUsingEvent}"> {!con.Account.Name}</a></div>
+                    </th>
+                    <th scope="row">
+                        <div class="slds-truncate" title="{!con.Account.Name}" > <a data-index="{!indx}" href="javascript:void(0);"  onclick="{! c.openPrimaryFromNavigationAPI}"> {!con.Account.Name}</a></div>
+                    </th>
+                    <!--
+					<th scope="row">
+                        <div class="slds-truncate" title="{!con.Contact.Name}" > <a data-index="{!indx}" href="javascript:void(0);"  onclick="{! c.opensubTabAPI}"> {!con.Contact.Name}</a></div>
+                    </th>
+                    <th scope="row">
+                    <div class="slds-truncate" title="{!con.AccountId}"><a href="{! '/'+con.AccountId}"> {!con.AccountId}</a></div>
+     				</th>  -->
+                    
+                    <th scope="row">
+                        <div class="slds-truncate" title="{!con.FirstName}"> <a data-index="{!indx}" href="javascript:void(0);"  onclick="{! c.opensubTabAPI}"> {!con.FirstName}</a></div>
+                    </th>
+                    <!--
+                    <th scope="row">
+                        <div class="slds-truncate" title="{!con.FirstName}">{!con.FirstName}</div>
+                    </th>
+					-->
+                    <th scope="row">
+                        <div class="slds-truncate" title="{!con.LastName}">{!con.LastName}</div>
+                    </th>
+                    
+                    <th scope="row">
+                        <div class="slds-truncate" title="{!con.Department}">{!con.Department}</div>
+                    </th>
+                    
+                    <th scope="row">
+                        <div class="slds-truncate" title="{!con.MobilePhone}">{!con.MobilePhone}</div>
+                    </th> 
+                </tr>              
+            </aura:iteration>
+            
+        </tbody>
+       
+    </table> 
+    
+</aura:component>

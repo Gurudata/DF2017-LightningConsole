@@ -1,0 +1,5 @@
+/* https://github.com/salesforce-ux/design-system/issues/357 */
+.THIS.slds-spinner_container {
+    position: fixed;
+    top: 70%;
+}

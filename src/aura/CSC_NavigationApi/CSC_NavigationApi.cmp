@@ -1,0 +1,10 @@
+<aura:component extensible="true" abstract="true" implements="flexipage:availableForAllPageTypes,force:appHostable">
+
+<!--Declare Attributes-->  
+<aura:attribute access="GLOBAL" name="tabinfo" type="Object"/>
+<!-- Get access to the workspace API for console apps. This API gives access to tabing functionality-->
+<lightning:workspaceAPI aura:id="workspace" />
+<div>{!v.body}</div>
+
+    
+</aura:component>

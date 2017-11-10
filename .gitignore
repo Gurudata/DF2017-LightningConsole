@@ -1,0 +1,7 @@
+Dreamforce2017.sublime-project
+Dreamforce2017.sublime-workspace
+config/*
+tools/pmd/src*
+tools/lightninglinter/aura*
+tools/lightninglinter/node_modules*
+data/archive*
